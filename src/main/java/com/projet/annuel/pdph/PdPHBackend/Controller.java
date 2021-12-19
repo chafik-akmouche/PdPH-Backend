@@ -1,5 +1,7 @@
 package com.projet.annuel.pdph.PdPHBackend;
 
+import java.io.File;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +15,6 @@ import com.fasterxml.jackson.core.JsonParser;
 public class Controller {
 	
 	private CallSolver callSolver = new CallSolver();
-	
-	//public void run(){
-	//	callSolver.run();
-	//}
 	
 	@GetMapping(path="/")
 	public String test() {
@@ -32,12 +30,19 @@ public class Controller {
 		double reph = params.getReph();
 		boolean c1 = params.isContrainte1();
 		boolean c2 = params.isContrainte2();
-		String input_file = "C:\\Users\\diakh\\Downloads\\instances_solver\\input.txt";
+		System.out.println("////////////////////////////// "+params);
+		String input_data = params.getInput_file();
+		params.createInputFile(input_data);
+		
+		File file = new File("input.txt");
+		String input_file = "";
+		if(file.isFile()) { 
+			input_file = "input.txt";
+		}
+		
 		String output_directory = params.getOutput_directory();
+		//callSolver.run(nb_semaine, h_max, hg_max, OffD, reph, c1, c2, input_file, output_directory);
 		
-		callSolver.run(nb_semaine,h_max,hg_max,OffD,reph,c1,c2,input_file,output_directory);
-		
-		System.out.println(input_file);
 		return true;
 	}
 }

@@ -1,5 +1,8 @@
 package com.projet.annuel.pdph.PdPHBackend;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public class SolveurParam {
 	private int nb_semaine;
 	private String input_file;
@@ -11,11 +14,11 @@ public class SolveurParam {
 	private boolean contrainte1;
 	private boolean contrainte2;
 	
-	public SolveurParam(int nb_semaine, String input_file, String output_directory,double hmax, double hg_max, double offd, double reph,
+	public SolveurParam(int nb_semaine, String input_object, String output_directory,double hmax, double hg_max, double offd, double reph,
 			boolean contrainte1, boolean contrainte2) {
 		super();
 		this.nb_semaine = nb_semaine;
-		this.input_file = input_file;
+		this.input_file = input_object;
 		this.output_directory = output_directory;
 		this.hmax = hmax;
 		this.hg_max = hg_max;
@@ -23,6 +26,20 @@ public class SolveurParam {
 		this.reph = reph;
 		this.contrainte1 = contrainte1;
 		this.contrainte2 = contrainte2;
+	}
+	
+	public void createInputFile(String inputData) {
+		String fileName = "input.txt";
+	    String encoding = "UTF-8";
+	    try {
+		    PrintWriter writer = new PrintWriter(fileName, encoding);
+		    System.out.print("fichier créé");
+		    writer.println(inputData);		    
+		    writer.close();		    
+	    } catch (IOException e){
+		      System.out.println("Erreur lors de la construction du fichier d'entrée !");
+		      e.printStackTrace();
+	    }
 	}
 
 	@Override
@@ -39,6 +56,8 @@ public class SolveurParam {
 	public void setNb_semaine(int nb_semaine) {
 		this.nb_semaine = nb_semaine;
 	}
+
+	
 
 	public String getInput_file() {
 		return input_file;
@@ -103,6 +122,4 @@ public class SolveurParam {
 	public void setOutput_directory(String output_directory) {
 		this.output_directory = output_directory;
 	}
-	
-	
 }

@@ -56,6 +56,7 @@ public class CallSolver {
 		//modification des contraintes réglementaire
 		// instanciation du solver et son déclenchement sur l'ensemble des contrainte et information d'entrée
 		
+		
 		this.solver = new Solver(nombre_semaine,hmax,hgmax,offd,reph,Ratio_base, Ratio_dim_base, CDmax,
 		c1, c2, Constrainte3, Constrainte4, Constrainte5, Constrainte6,
 		Constrainte7, Constrainte8, Constrainte9, Constrainte10, Constrainte11, Constrainte12,

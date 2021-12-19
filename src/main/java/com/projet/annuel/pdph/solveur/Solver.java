@@ -68,7 +68,7 @@ public class Solver extends JFrame {
         if (log_dossier.mkdirs()) {
             System.out.println("Creation de dossier pour le log");
         } else {
-            System.out.println("Error");
+            System.out.println("Error ###########################################################");
         }
     }
 	
