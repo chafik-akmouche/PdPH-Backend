@@ -2,6 +2,11 @@ package com.projet.annuel.pdph.PdPHBackend;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class SolveurParam {
 	private int nb_semaine;
@@ -28,18 +33,45 @@ public class SolveurParam {
 		this.contrainte2 = contrainte2;
 	}
 	
-	public void createInputFile(String inputData) {
-		String fileName = "input.txt";
+	public String createInputFile(String inputData) {
+		String file_path = "data/in_tmp/input.txt";
+		String file_path_copy = "data/in/input"+ this.generateFileCoding() + ".txt";
+		Path source = Paths.get(file_path);
+		Path dest = Paths.get(file_path_copy);
+
 	    String encoding = "UTF-8";
 	    try {
-		    PrintWriter writer = new PrintWriter(fileName, encoding);
-		    System.out.print("fichier créé");
+		    PrintWriter writer = new PrintWriter(file_path, encoding);
+		    System.out.print("fichier creé: " + file_path);
 		    writer.println(inputData);		    
-		    writer.close();		    
+		    writer.close();	
+		    Files.copy(source,dest);
+		    return file_path;
 	    } catch (IOException e){
 		      System.out.println("Erreur lors de la construction du fichier d'entrée !");
 		      e.printStackTrace();
+		      return null;
 	    }
+	}
+	
+	public String createOutputDirectory(String input_file_path) {
+		String output_directory_path = "";
+		String tab[] = input_file_path.split("/");
+		
+		for(int i = 0; i < tab.length - 2; i++) {
+			output_directory_path += tab[i] + "/";
+		}
+		
+		return output_directory_path + "output/";
+	}
+	
+	public String generateFileCoding() {
+		String codage = "";
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss");  
+		LocalDateTime now = LocalDateTime.now();  
+		codage += dtf.format(now).toString().replaceAll("\\s+", "_");
+		
+		return codage;
 	}
 
 	@Override

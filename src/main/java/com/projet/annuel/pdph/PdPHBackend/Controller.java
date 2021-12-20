@@ -31,16 +31,15 @@ public class Controller {
 		boolean c1 = params.isContrainte1();
 		boolean c2 = params.isContrainte2();
 		
+		//récuperation des données d'entrée 
 		String input_data = params.getInput_file();
-		params.createInputFile(input_data);
 		
-		File file = new File("input.txt");
-		String input_file = "";
-		if(file.isFile()) { 
-			input_file = "input.txt";
-		}
+		//creation du fichier d'entrée
+		String input_file = params.createInputFile(input_data);
 		
-		String output_directory = params.getOutput_directory();
+		//creation du répertoire de sortie
+		String output_directory = params.createOutputDirectory(input_file);
+		
 		callSolver.run(nb_semaine, h_max, hg_max, OffD, reph, c1, c2, input_file, output_directory);
 		
 		return true;
