@@ -30,7 +30,7 @@ public class Controller {
 		double reph = params.getReph();
 		boolean c1 = params.isContrainte1();
 		boolean c2 = params.isContrainte2();
-		System.out.println("////////////////////////////// "+params);
+		
 		String input_data = params.getInput_file();
 		params.createInputFile(input_data);
 		
@@ -41,7 +41,7 @@ public class Controller {
 		}
 		
 		String output_directory = params.getOutput_directory();
-		//callSolver.run(nb_semaine, h_max, hg_max, OffD, reph, c1, c2, input_file, output_directory);
+		callSolver.run(nb_semaine, h_max, hg_max, OffD, reph, c1, c2, input_file, output_directory);
 		
 		return true;
 	}
