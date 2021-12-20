@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JFrame;
+//import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -32,7 +32,7 @@ import ilog.concert.IloLinearNumExpr;
 import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex;
 
-public class Solver extends JFrame {
+public class Solver /*extends JFrame*/ {
 	
 	private String input_route;
 	private String out;
@@ -1298,16 +1298,16 @@ public class Solver extends JFrame {
 			            	}
 
 			                JScrollPane pane = new JScrollPane(table);
-			                add(pane, BorderLayout.CENTER);
+			                //add(pane, BorderLayout.CENTER);
 			            	
 			            	
 			            	//Agregamos el JScrollPane al contenedor        
 			            	//getContentPane().add(scrollPane, BorderLayout.CENTER);
 			            	
 			            	//manejamos la salida        
-			            	addWindowListener(new WindowAdapter() {
-			            		public void windowClosing(WindowEvent e) {
-			            			System.exit(0); }        });	
+//			            	addWindowListener(new WindowAdapter() {
+//			            		public void windowClosing(WindowEvent e) {
+//			            			System.exit(0); }        });	
 			            	
 			            	//Exportar a excel
 	   		            	
@@ -1351,7 +1351,7 @@ public class Solver extends JFrame {
 		   		 		}
 		   		 	    catch(IOException ex) {
 		   		 			Logger.getLogger(Solver.class.getName()).log(Level.SEVERE,null,ex);	
-		   		 		}        	
+		   		 		}
 	    	    }
 	    		else {
 	    			Date end = new Date();
@@ -1384,4 +1384,7 @@ public class Solver extends JFrame {
   
 		}
 	}
+	
+	
+	
 }

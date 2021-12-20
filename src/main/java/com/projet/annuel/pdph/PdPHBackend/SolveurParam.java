@@ -19,8 +19,7 @@ public class SolveurParam {
 	private boolean contrainte1;
 	private boolean contrainte2;
 	
-	public SolveurParam(int nb_semaine, String input_object, String output_directory,double hmax, double hg_max, double offd, double reph,
-			boolean contrainte1, boolean contrainte2) {
+	public SolveurParam(int nb_semaine, String input_object, String output_directory,double hmax, double hg_max, double offd, double reph, boolean contrainte1, boolean contrainte2) {
 		super();
 		this.nb_semaine = nb_semaine;
 		this.input_file = input_object;
@@ -31,6 +30,14 @@ public class SolveurParam {
 		this.reph = reph;
 		this.contrainte1 = contrainte1;
 		this.contrainte2 = contrainte2;
+		
+		/*
+		 * Cet appel doit être fait à la fin de l'exécution du solveur
+		 * L'objet Json contenant la liste des solutions doit être envoyé au front
+		 */
+		System.out.println("########################################");
+		System.out.println(new Response().getSolutionNames("data/in"));
+		System.out.println("########################################");
 	}
 	
 	public String createInputFile(String inputData) {
@@ -42,10 +49,10 @@ public class SolveurParam {
 	    String encoding = "UTF-8";
 	    try {
 		    PrintWriter writer = new PrintWriter(file_path, encoding);
-		    System.out.print("fichier creé: " + file_path);
+		    System.out.print("fichier " + file_path + " créé\n");
 		    writer.println(inputData);		    
 		    writer.close();	
-		    Files.copy(source,dest);
+		    Files.copy(source, dest);
 		    return file_path;
 	    } catch (IOException e){
 		      System.out.println("Erreur lors de la construction du fichier d'entrée !");
