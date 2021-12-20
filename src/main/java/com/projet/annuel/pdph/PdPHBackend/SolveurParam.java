@@ -62,7 +62,7 @@ public class SolveurParam {
 			output_directory_path += tab[i] + "/";
 		}
 		
-		return output_directory_path + "output/";
+		return output_directory_path + "out_tmp/";
 	}
 	
 	public String generateFileCoding() {
