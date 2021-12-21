@@ -1,11 +1,15 @@
 package com.projet.annuel.pdph.PdPHBackend;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.Path;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +26,7 @@ public class Controller {
 	}
 	
 	@PostMapping(path="/callsolveur")
-	public boolean getParameters(@RequestBody SolveurParam params) throws IOException {
+	public String getParameters(@RequestBody SolveurParam params) throws IOException {
 		int nb_semaine = params.getNb_semaine();
 		double h_max = params.getHmax();
 		double hg_max = params.getHg_max();
@@ -40,20 +44,34 @@ public class Controller {
 		//creation du répertoire de sortie temporaire
 		String output_directory = params.createOutputDirectory(input_file);
 		
-		//creation du répertoire de sortie
-		//String out = "data/out/out" + params.generateFileCoding() + "/";
-		Files.createDirectory(Paths.get("data/out/out" + params.generateFileCoding() + "/"));
-		
 		callSolver.run(nb_semaine, h_max, hg_max, OffD, reph, c1, c2, input_file, output_directory);
 		
-		// le solveur ne s'arrête pas !!!
-		//System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-		//Path out_path = Paths.get(out);		
-		//String source = "data/out_tmp";
-		//Path source_path = Paths.get(source);
+		//creation d'un nouveau répertoire de sortie absolu
+		String out = "data/out/out" + params.generateFileCoding() + "/";
 		
-		//Files.copy(source_path, out_path);
+		Path out_path = Paths.get(out);	
+		Files.createDirectory(out_path);
+
+		File[] files = new File(output_directory).listFiles(); 
+		for (File file : files) {
+		    if (file.isFile()) {
+		        Files.copy(file.toPath(),Paths.get(out_path + "\\" + file.getName()));
+		    }
+		}
 		
-		return true;
+		
+		/*
+		 * Cet appel doit être fait à la fin de l'exécution du solveur
+		 * L'objet Json contenant la liste des solutions doit être envoyé au front
+		 */
+		 String solutions = Response.getSolutionNames(output_directory);
+	
+		return solutions;
 	}
+	
+//	@GetMapping("/solutions/{solution}")
+//	public void getSolution(@PathVariable String sol) {
+//		System.out.println(sol);
+//	}
+	
 }

@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-//import javax.swing.JFrame;
+import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -32,7 +32,7 @@ import ilog.concert.IloLinearNumExpr;
 import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex;
 
-public class Solver /*extends JFrame*/ {
+public class Solver extends JFrame {
 	
 	private String input_route;
 	private String out;
@@ -41,7 +41,9 @@ public class Solver /*extends JFrame*/ {
 			boolean Constrainte1,boolean Constrainte2,boolean Constrainte3,boolean Constrainte4,boolean Constrainte5,boolean Constrainte6,
 			boolean Constrainte7,boolean Constrainte8,boolean Constrainte9,boolean Constrainte10,boolean Constrainte11,boolean Constrainte12,
 			boolean Constrainte13,boolean Constrainte14,boolean Constrainte15,boolean Constrainte16,boolean obj1,boolean obj2,boolean obj3,int time_limit[],String in,String out) {
-    //Dossier de l'input
+    
+		
+	//Dossier de l'input
 
 	//Scanner e1=new Scanner(System.in);
 	//System.out.println("Collez la route de votre fichier txt d'input (par exemple C:\\Users\\fichier.txt)");
@@ -1298,16 +1300,17 @@ public class Solver /*extends JFrame*/ {
 			            	}
 
 			                JScrollPane pane = new JScrollPane(table);
-			                //add(pane, BorderLayout.CENTER);
+			                add(pane, BorderLayout.CENTER);
 			            	
 			            	
 			            	//Agregamos el JScrollPane al contenedor        
-			            	//getContentPane().add(scrollPane, BorderLayout.CENTER);
+			            	getContentPane().add(pane, BorderLayout.CENTER);
 			            	
 			            	//manejamos la salida        
-//			            	addWindowListener(new WindowAdapter() {
-//			            		public void windowClosing(WindowEvent e) {
-//			            			System.exit(0); }        });	
+			            	addWindowListener(new WindowAdapter() {
+			            		public void windowClosing(WindowEvent e) {
+			            			System.exit(0); }        
+			            	});	
 			            	
 			            	//Exportar a excel
 	   		            	

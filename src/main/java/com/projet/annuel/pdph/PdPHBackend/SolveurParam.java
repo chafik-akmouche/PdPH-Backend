@@ -30,14 +30,6 @@ public class SolveurParam {
 		this.reph = reph;
 		this.contrainte1 = contrainte1;
 		this.contrainte2 = contrainte2;
-		
-		/*
-		 * Cet appel doit être fait à la fin de l'exécution du solveur
-		 * L'objet Json contenant la liste des solutions doit être envoyé au front
-		 */
-		System.out.println("########################################");
-		System.out.println(new Response().getSolutionNames("data/in"));
-		System.out.println("########################################");
 	}
 	
 	public String createInputFile(String inputData) {
@@ -49,7 +41,7 @@ public class SolveurParam {
 	    String encoding = "UTF-8";
 	    try {
 		    PrintWriter writer = new PrintWriter(file_path, encoding);
-		    System.out.print("fichier " + file_path + " créé\n");
+		    System.out.print("fichier " + file_path + " crée\n");
 		    writer.println(inputData);		    
 		    writer.close();	
 		    Files.copy(source, dest);

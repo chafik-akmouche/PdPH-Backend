@@ -61,7 +61,7 @@ public class CallSolver {
 		c1, c2, Constrainte3, Constrainte4, Constrainte5, Constrainte6,
 		Constrainte7, Constrainte8, Constrainte9, Constrainte10, Constrainte11, Constrainte12,
 		Constrainte13, Constrainte14, Constrainte15, Constrainte16, obj1, obj2, obj3,time_limit,input_file,output_directory);
-		//this.solver.pack();
-		//this.solver.setVisible(true);
+		this.solver.pack();
+		this.solver.setVisible(true);
 	}
 }

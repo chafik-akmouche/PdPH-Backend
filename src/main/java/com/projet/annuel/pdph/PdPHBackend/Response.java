@@ -11,7 +11,7 @@ public class Response {
 	 * @param chemin vers le répertoire cible (string)
 	 * @return json contenant les noms des fichiers du répertoire 
 	 */
-	public String getSolutionNames (String path) {
+	public static String getSolutionNames (String path) {
 		ArrayList<String> solutionsList = new ArrayList<String>();
 		
 		File[] files = new File(path).listFiles(); 
