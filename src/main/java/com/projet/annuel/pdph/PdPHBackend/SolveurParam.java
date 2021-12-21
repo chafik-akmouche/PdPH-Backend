@@ -29,7 +29,7 @@ public class SolveurParam {
 		this.offd = offd;
 		this.reph = reph;
 		this.contrainte1 = contrainte1;
-		this.contrainte2 = contrainte2;
+		this.contrainte2 = contrainte2;		
 	}
 	
 	public String createInputFile(String inputData) {

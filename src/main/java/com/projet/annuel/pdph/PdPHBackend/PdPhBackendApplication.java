@@ -40,6 +40,10 @@ public class PdPhBackendApplication {
 
 		ConfigurableApplicationContext context = builder.run(args);
 		
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.println(Response.getContentSolution("Cycle_0_0_1_3.xlsx"));
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		
 	}
 
 }
