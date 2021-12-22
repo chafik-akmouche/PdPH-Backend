@@ -38,7 +38,7 @@ public class Response {
 	 * @return la solution sous format json 
 	 * @throws IOException 
 	 */
-	public static ArrayList<Creneau> getContentSolution (String fileName) throws IOException {
+	public static String getContentSolution (String fileName) throws IOException {
 		//tableau de creneau a retourner 
 		ArrayList<Creneau> tab_creneaux = new ArrayList<>();
 		
@@ -84,7 +84,7 @@ public class Response {
 		}
 		
 		tab_creneaux.remove(tab_creneaux.size()-1);
-		return tab_creneaux;
+		return new Gson().toJson(tab_creneaux);
 	}
 
 }

@@ -72,8 +72,8 @@ public class Controller {
 	}
 	
 	@GetMapping("/solution")
-	public ArrayList<Creneau> getSolution(@RequestParam String name) throws IOException {
-		return Response.getContentSolution(name);
+	public String getSolution(@RequestParam String name) throws IOException {
+		return Response.getContentSolution("data\\out_tmp\\" + name);
 	}
 	
 }
