@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.nio.file.Path;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -69,9 +71,9 @@ public class Controller {
 		return solutions;
 	}
 	
-//	@GetMapping("/solutions/{solution}")
-//	public void getSolution(@PathVariable String sol) {
-//		System.out.println(sol);
-//	}
+	@GetMapping("/solution")
+	public ArrayList<Creneau> getSolution(@RequestParam String name) throws IOException {
+		return Response.getContentSolution(name);
+	}
 	
 }

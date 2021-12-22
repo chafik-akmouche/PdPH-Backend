@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import java.util.Iterator;  
+import org.apache.poi.ss.usermodel.Cell; 
 
 import com.google.gson.Gson;
 
@@ -37,63 +36,55 @@ public class Response {
 	 * Méthode renvoyant le contenu de la solution sélectionnée (fichier xlsx)
 	 * @param nom du fichier xlsx (solution)
 	 * @return la solution sous format json 
+	 * @throws IOException 
 	 */
-	public static String getContentSolution (String fileName) {
-		ArrayList <Creneau> creneaux = readExcelFile(fileName);
-		return new Gson().toJson(creneaux);
-	}
-	
-	/**
-	 * Méthode renvoyant le contenu de la solution sélectionnée (fichier xlsx)
-	 * @param nom du fichier xlsx (solution)
-	 * @return la solution sous format json 
-	 */
-	public static ArrayList <Creneau> readExcelFile(String filePath){
-		try {
-			FileInputStream excelFile = new FileInputStream(new File(filePath));
-    		Workbook workbook = new XSSFWorkbook(excelFile);
-     
-    		Sheet sheet = workbook.getSheet("Creneaux");
-    		Iterator<?> lignes = sheet.iterator();
-    		
-    		ArrayList <Creneau> listCreneaux = new ArrayList<Creneau>();
-    		
-    		int nb_ligne = 0;
-    		while (lignes.hasNext()) {
-    			Row current_ligne = (Row) lignes.next();
-    			
-    			if(nb_ligne == 0) {
-    				nb_ligne++;
-    				continue;
-    			}
-    			
-    			Iterator<?> cellule_ligne = current_ligne.iterator();
- 
-    			String contrat = "";
-    			String agent = "";
-    			//ArrayList<String> postes = new ArrayList<String>();
-    			
-    			int index_cellule = 0;
-    			while (cellule_ligne.hasNext()) {
-    				Cell current_cellule = (Cell) cellule_ligne.next();
-    				
-    				if(index_cellule == 0) {
-    					contrat = String.valueOf(current_cellule.getNumericCellValue());
-    				} else if(index_cellule == 1) {
-    					agent = current_cellule.getStringCellValue();
-    				} //else if(index_cellule >= 2) {
-    					//postes = postes.add(currentCell.getStringCellValue());
-    				//}
-    				index_cellule++;
-    			} 
-    			listCreneaux.add(new Creneau(contrat, agent));
-    		}    		
-    		workbook.close();    		
-    		return listCreneaux;
-    		
-        } catch (IOException e) {
-        	throw new RuntimeException("Erreur " + e.getMessage());
-        }
+	public static ArrayList<Creneau> getContentSolution (String fileName) throws IOException {
+		//tableau de creneau a retourner 
+		ArrayList<Creneau> tab_creneaux = new ArrayList<>();
+		
+		//obtention des octets d'entrée d'un fichier  
+		FileInputStream fis = new FileInputStream(new File(fileName)); 
+		
+		//création d'une instance de classeur faisant référence au fichier .xlsx
+		XSSFWorkbook wb =  new  XSSFWorkbook(fis);  
+		XSSFSheet sheet = wb.getSheetAt(0); //création d'un objet Sheet pour récupérer l'objet
+		Iterator<Row> itr = sheet.iterator(); // itération sur un fichier excel 
+		
+		itr.next(); //ignoration de la première ligne
+		
+		while (itr.hasNext()) {
+			Row row = itr.next(); 
+			
+			Iterator<Cell> cellIterator = row.cellIterator(); //itération dans les colonnes
+			
+			//creation d'une nouvelle instance de creneau 
+			Creneau creneau = new Creneau();
+			
+			while (cellIterator.hasNext())   
+			{  
+				Cell cell = cellIterator.next();  
+				int indice = cell.getColumnIndex();
+				switch (indice)               
+				{  
+					case 0:    //field that represents string cell type  
+						creneau.setContrat(row.getCell(indice).toString());
+					break;  
+					case 1: 
+						creneau.setAgent(row.getCell(indice).toString());
+					break;
+				default:
+						creneau.getPostes().add(row.getCell(indice).toString());
+					break;
+					
+				}
+			 }
+			
+			tab_creneaux.add(creneau);
+			
+		}
+		
+		tab_creneaux.remove(tab_creneaux.size()-1);
+		return tab_creneaux;
 	}
 
 }
