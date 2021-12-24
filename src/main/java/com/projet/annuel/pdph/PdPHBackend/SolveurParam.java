@@ -53,6 +53,20 @@ public class SolveurParam {
 	    }
 	}
 	
+	public void saveParametersOnFile(int nombreSemaine) {
+		String file_path = "data/in_tmp/parameters.txt";
+		String encoding = "UTF-8";
+		
+		try {
+			PrintWriter writer = new PrintWriter(file_path, encoding);
+			writer.print(nombreSemaine + ";");
+			writer.close();
+		}catch(IOException e) {
+			System.out.println("Erreur lors de la construction du fichier des paramètres !");
+			e.printStackTrace();
+		}
+	}
+	
 	public String createOutputDirectory(String input_file_path) {
 		String output_directory_path = "";
 		String tab[] = input_file_path.split("/");

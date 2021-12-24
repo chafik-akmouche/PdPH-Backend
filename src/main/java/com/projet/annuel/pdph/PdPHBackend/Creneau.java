@@ -6,11 +6,13 @@ public class Creneau {
 	private String contrat;
 	private String agent;
 	private ArrayList <String> postes = new ArrayList<>();
+	private String color;
 	
-	public Creneau(String contrat, String agent, ArrayList <String> postes) {
+	public Creneau(String contrat, String agent, ArrayList <String> postes , String color) {
 		this.contrat = contrat;
 		this.agent = agent;
 		this.postes = postes;
+		this.color = color;
 	}
 
 	public Creneau() {
@@ -40,11 +42,19 @@ public class Creneau {
 	public void setPostes(ArrayList<String> postes) {
 		this.postes = postes;
 	}
+	
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
 
 	@Override
 	public String toString() {
-		return "Creneau [contrat=" + contrat + ", agent=" + agent + ", postes=" + postes + "]";
+		return "Creneau [contrat=" + contrat + ", agent=" + agent + ", postes=" + postes + ", color=" + color + "]";
 	}
 	
-
 }

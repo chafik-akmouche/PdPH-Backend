@@ -1,7 +1,10 @@
 package com.projet.annuel.pdph.PdPHBackend;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -20,7 +23,7 @@ public class Response {
 	 * @param chemin vers le répertoire cible (string)
 	 * @return json contenant les noms des fichiers du répertoire 
 	 */
-	public static String getSolutionNames (String path) {
+	public static ArrayList<String> getSolutionNames (String path) {
 		ArrayList<String> solutionsList = new ArrayList<String>();
 		
 		File[] files = new File(path).listFiles(); 
@@ -29,7 +32,7 @@ public class Response {
 		    	solutionsList.add(file.getName());
 		    }
 		}
-		return new Gson().toJson(solutionsList);
+		return solutionsList;
 	}
 	
 	/**
@@ -38,7 +41,7 @@ public class Response {
 	 * @return la solution sous format json 
 	 * @throws IOException 
 	 */
-	public static String getContentSolution (String fileName) throws IOException {
+	public static ArrayList<Creneau> getContentSolution (String fileName) throws IOException {
 		//tableau de creneau a retourner 
 		ArrayList<Creneau> tab_creneaux = new ArrayList<>();
 		
@@ -83,8 +86,34 @@ public class Response {
 			
 		}
 		
+		
+		
 		tab_creneaux.remove(tab_creneaux.size()-1);
-		return new Gson().toJson(tab_creneaux);
+		return tab_creneaux;
+	}
+	
+	public static int getParameters(String filename) throws IOException {
+		int nb_semaine = 0;
+		
+		try {
+			FileReader fr = new FileReader(filename);
+			try (BufferedReader br = new BufferedReader(fr)) {
+				String sb = new String();
+				String line;
+				while((line = br.readLine()) != null) {
+					sb += line;
+				}
+				
+				nb_semaine = Integer.parseInt(sb.split(";")[0]);
+			}
+		    
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return nb_semaine;
 	}
 
 }
