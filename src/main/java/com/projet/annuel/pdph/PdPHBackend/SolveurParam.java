@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 public class SolveurParam {
 	private int nb_semaine;
 	private String input_file;
-	private String output_directory;
+	private String input_data;
 	private double hmax;
 	private double hg_max;
 	private double offd;
@@ -19,11 +19,11 @@ public class SolveurParam {
 	private boolean contrainte1;
 	private boolean contrainte2;
 	
-	public SolveurParam(int nb_semaine, String input_object, String output_directory,double hmax, double hg_max, double offd, double reph, boolean contrainte1, boolean contrainte2) {
+	public SolveurParam(int nb_semaine, String input_filename, String input_data,double hmax, double hg_max, double offd, double reph, boolean contrainte1, boolean contrainte2) {
 		super();
 		this.nb_semaine = nb_semaine;
-		this.input_file = input_object;
-		this.output_directory = output_directory;
+		this.input_file = input_filename;
+		this.input_data = input_data;
 		this.hmax = hmax;
 		this.hg_max = hg_max;
 		this.offd = offd;
@@ -53,13 +53,20 @@ public class SolveurParam {
 	    }
 	}
 	
-	public void saveParametersOnFile(int nombreSemaine) {
+	public void saveParametersOnFile(int nombreSemaine, double h_max, double hg_max2, double offD2, double reph2, boolean c1, boolean c2, String input_filename) {
 		String file_path = "data/in_tmp/parameters.txt";
 		String encoding = "UTF-8";
 		
 		try {
 			PrintWriter writer = new PrintWriter(file_path, encoding);
-			writer.print(nombreSemaine + ";");
+			writer.println("nb_semaine:" + nombreSemaine);
+			writer.println("h_max:" + nombreSemaine);
+			writer.println("hg_max:" + hg_max2);
+			writer.println("offD:" + offD2);
+			writer.println("reph:" + reph2);
+			writer.println("contrainte1:" + c1);
+			writer.println("contrainte2:" + c2);
+			writer.println("input_file:" + input_filename);
 			writer.close();
 		}catch(IOException e) {
 			System.out.println("Erreur lors de la construction du fichier des paramètres !");
@@ -85,13 +92,6 @@ public class SolveurParam {
 		codage += dtf.format(now).toString().replaceAll("\\s+", "_");
 		
 		return codage;
-	}
-
-	@Override
-	public String toString() {
-		return "SolveurParam [nb_semaine=" + nb_semaine + ", input_file=" + input_file + ", output_directory=" + output_directory + ", hmax=" + hmax + ", hg_max="
-				+ hg_max + ", OffD=" + this.offd + ", Reph=" + this.reph + ", contrainte1=" + contrainte1 + ", contrainte2="
-				+ contrainte2 + "]";
 	}
 
 	public int getNb_semaine() {
@@ -160,11 +160,11 @@ public class SolveurParam {
 		this.contrainte2 = contrainte2;
 	}
 
-	public String getOutput_directory() {
-		return output_directory;
+	public String getInput_data() {
+		return input_data;
 	}
 
-	public void setOutput_directory(String output_directory) {
-		this.output_directory = output_directory;
+	public void setInput_data(String input_data) {
+		this.input_data = input_data;
 	}
 }

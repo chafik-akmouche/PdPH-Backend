@@ -17,7 +17,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import com.google.gson.Gson;
 
 public class Response {
-	
 	/**
 	 * Méthode renvoyant les noms des fichiers d'un répertoire
 	 * @param chemin vers le répertoire cible (string)
@@ -92,7 +91,7 @@ public class Response {
 		return tab_creneaux;
 	}
 	
-	public static int getParameters(String filename) throws IOException {
+	public static int getParamsNombreSemaine(String filename) throws IOException {
 		int nb_semaine = 0;
 		
 		try {
@@ -101,16 +100,16 @@ public class Response {
 				String sb = new String();
 				String line;
 				while((line = br.readLine()) != null) {
-					sb += line;
+					String tab[] = line.split(":");
+					if(tab[0].equals("nb_semaine")) {
+						nb_semaine = Integer.parseInt(tab[1]);
+					}
 				}
-				
-				nb_semaine = Integer.parseInt(sb.split(";")[0]);
 			}
 		    
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
 		
 		
 		return nb_semaine;

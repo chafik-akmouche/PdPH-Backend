@@ -1,6 +1,9 @@
 package com.projet.annuel.pdph.PdPHBackend;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -30,13 +33,57 @@ public class Controller {
 		//recupèration du nombre de semaine du dernier lancement de solveur
 		String path = "data//in_tmp//parameters.txt";
 		File paramsFile = new File(path);
-		if(paramsFile.isFile())
-			nb_semaine = Response.getParameters(path);
+		
+		if(paramsFile.isFile()) {
+			nb_semaine = Response.getParamsNombreSemaine(path);
+		}
 		
 		ArrayList<String> solutions = Response.getSolutionNames("data//out_tmp");
 		FilterParams filterParams = new FilterParams(nb_semaine,solutions);
 		
 		return filterParams;
+	}
+	
+	
+	@GetMapping(path="/parameters")
+	public SolveurParam getParameters() throws IOException{
+		SolveurParam sp = new SolveurParam(0, null,null, 0, 0, 0, 0, false, false);
+		String path = "data//in_tmp//parameters.txt";
+		File paramsFile = new File(path);
+		
+		if(paramsFile.isFile()) {
+			try {
+				FileReader fr = new FileReader(paramsFile);
+				try (BufferedReader br = new BufferedReader(fr)) {
+					String line;
+					while((line = br.readLine()) != null) {
+						String tab[] = line.split(":");
+						if(tab[0].equals("nb_semaine")) 
+							sp.setNb_semaine(Integer.parseInt(tab[1]));
+						else if(tab[0].equals("input_file"))
+							sp.setInput_file(tab[1]);
+						else if(tab[0].equals("h_max"))
+							sp.setHmax(Double.parseDouble(tab[1]));
+						else if(tab[0].equals("hg_max"))
+							sp.setHg_max(Double.parseDouble(tab[1]));
+						else if(tab[0].equals("offD"))
+							sp.setOffd(Double.parseDouble(tab[1]));
+						else if(tab[0].equals("reph"))
+							sp.setReph(Double.parseDouble(tab[1]));
+						else if(tab[0].equals("contrainte1"))
+							sp.setContrainte1(Boolean.parseBoolean(tab[1]));
+						else if(tab[0].equals("contrainte2"))
+							sp.setContrainte2(Boolean.parseBoolean(tab[1]));
+					}
+				}
+			    
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return sp;
 	}
 	
 	@PostMapping(path="/callsolveur")
@@ -48,12 +95,14 @@ public class Controller {
 		double reph = params.getReph();
 		boolean c1 = params.isContrainte1();
 		boolean c2 = params.isContrainte2();
+		String input_filename = params.getInput_file();
+	
 		
 		//sauvegarde des paramètres dans un fichier
-		params.saveParametersOnFile(nb_semaine);
+		params.saveParametersOnFile(nb_semaine,h_max,hg_max,OffD,reph,c1,c2,input_filename);
 		
 		//récuperation des données d'entrée 
-		String input_data = params.getInput_file();
+		String input_data = params.getInput_data();
 		
 		//creation du fichier d'entrée
 		String input_file = params.createInputFile(input_data);
