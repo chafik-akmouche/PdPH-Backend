@@ -47,7 +47,7 @@ public class Controller {
 	
 	@GetMapping(path="/parameters")
 	public SolveurParam getParameters() throws IOException{
-		SolveurParam sp = new SolveurParam(0, null,null, 0, 0, 0, 0, false, false);
+		SolveurParam sp = new SolveurParam(0, null, null, false, false, false, false, false);
 		String path = "data//in_tmp//parameters.txt";
 		File paramsFile = new File(path);
 		
@@ -62,18 +62,17 @@ public class Controller {
 							sp.setNb_semaine(Integer.parseInt(tab[1]));
 						else if(tab[0].equals("input_file"))
 							sp.setInput_file(tab[1]);
-						else if(tab[0].equals("h_max"))
-							sp.setHmax(Double.parseDouble(tab[1]));
-						else if(tab[0].equals("hg_max"))
-							sp.setHg_max(Double.parseDouble(tab[1]));
-						else if(tab[0].equals("offD"))
-							sp.setOffd(Double.parseDouble(tab[1]));
-						else if(tab[0].equals("reph"))
-							sp.setReph(Double.parseDouble(tab[1]));
-						else if(tab[0].equals("contrainte1"))
-							sp.setContrainte1(Boolean.parseBoolean(tab[1]));
-						else if(tab[0].equals("contrainte2"))
-							sp.setContrainte2(Boolean.parseBoolean(tab[1]));
+						else if(tab[0].equals("contrainte11"))
+							sp.setContrainte11(Boolean.parseBoolean(tab[1]));
+						else if(tab[0].equals("contrainte12"))
+							sp.setContrainte12(Boolean.parseBoolean(tab[1]));
+						else if(tab[0].equals("contrainte13"))
+							sp.setContrainte13(Boolean.parseBoolean(tab[1]));
+						else if(tab[0].equals("contrainte14"))
+							sp.setContrainte14(Boolean.parseBoolean(tab[1]));
+						else if(tab[0].equals("contrainte15"))
+							sp.setContrainte15(Boolean.parseBoolean(tab[1]));
+						;
 					}
 				}
 			    
@@ -89,20 +88,19 @@ public class Controller {
 	@PostMapping(path="/callsolveur")
 	public ArrayList<String> getParameters(@RequestBody SolveurParam params) throws IOException {
 		int nb_semaine = params.getNb_semaine();
-		double h_max = params.getHmax();
-		double hg_max = params.getHg_max();
-		double OffD = params.getOffd();
-		double reph = params.getReph();
-		boolean c1 = params.isContrainte1();
-		boolean c2 = params.isContrainte2();
 		String input_filename = params.getInput_file();
-	
-		
-		//sauvegarde des paramètres dans un fichier
-		params.saveParametersOnFile(nb_semaine,h_max,hg_max,OffD,reph,c1,c2,input_filename);
-		
 		//récuperation des données d'entrée 
 		String input_data = params.getInput_data();
+		boolean contrainte11 = params.isContrainte11();
+		boolean contrainte12 = params.isContrainte12();
+		boolean contrainte13 = params.isContrainte13();
+		boolean contrainte14 = params.isContrainte14();
+		boolean contrainte15 = params.isContrainte15();
+		
+		//sauvegarde des paramètres dans un fichier
+		params.saveParametersOnFile(nb_semaine,contrainte11,contrainte12,contrainte13,contrainte14,contrainte15,input_filename);
+		
+		
 		
 		//creation du fichier d'entrée
 		String input_file = params.createInputFile(input_data);
@@ -110,7 +108,7 @@ public class Controller {
 		//creation du répertoire de sortie temporaire
 		String output_directory = params.createOutputDirectory(input_file);
 		
-		callSolver.run(nb_semaine, h_max, hg_max, OffD, reph, c1, c2, input_file, output_directory);
+		callSolver.run(nb_semaine, contrainte11,contrainte12,contrainte13,contrainte14,contrainte15, input_file, output_directory);
 		
 		//creation d'un nouveau répertoire de sortie absolu
 		String out = "data/out/out" + params.generateFileCoding() + "/";

@@ -1,0 +1,7 @@
+nb_semaine:2
+contrainte11:false
+contrainte12false
+contrainte13false
+contrainte14:false
+contrainte15:false
+input_file:Instance_0_0_1.txt

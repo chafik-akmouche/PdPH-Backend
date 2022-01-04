@@ -12,26 +12,27 @@ public class SolveurParam {
 	private int nb_semaine;
 	private String input_file;
 	private String input_data;
-	private double hmax;
-	private double hg_max;
-	private double offd;
-	private double reph;
-	private boolean contrainte1;
-	private boolean contrainte2;
+	private boolean contrainte11;
+	private boolean contrainte12;
+	private boolean contrainte13;
+	private boolean contrainte14;
+	private boolean contrainte15;
 	
-	public SolveurParam(int nb_semaine, String input_filename, String input_data,double hmax, double hg_max, double offd, double reph, boolean contrainte1, boolean contrainte2) {
+	
+	
+	public SolveurParam(int nb_semaine, String input_file, String input_data, boolean contrainte11,
+			boolean contrainte12, boolean contrainte13, boolean contrainte14, boolean contrainte15) {
 		super();
 		this.nb_semaine = nb_semaine;
-		this.input_file = input_filename;
+		this.input_file = input_file;
 		this.input_data = input_data;
-		this.hmax = hmax;
-		this.hg_max = hg_max;
-		this.offd = offd;
-		this.reph = reph;
-		this.contrainte1 = contrainte1;
-		this.contrainte2 = contrainte2;		
+		this.contrainte11 = contrainte11;
+		this.contrainte12 = contrainte12;
+		this.contrainte13 = contrainte13;
+		this.contrainte14 = contrainte14;
+		this.contrainte15 = contrainte15;
 	}
-	
+
 	public String createInputFile(String inputData) {
 		String file_path = "data/in_tmp/input.txt";
 		String file_path_copy = "data/in/input"+ this.generateFileCoding() + ".txt";
@@ -53,19 +54,18 @@ public class SolveurParam {
 	    }
 	}
 	
-	public void saveParametersOnFile(int nombreSemaine, double h_max, double hg_max2, double offD2, double reph2, boolean c1, boolean c2, String input_filename) {
+	public void saveParametersOnFile(int nombreSemaine, boolean c11, boolean c12, boolean c13, boolean c14, boolean c15, String input_filename) {
 		String file_path = "data/in_tmp/parameters.txt";
 		String encoding = "UTF-8";
 		
 		try {
 			PrintWriter writer = new PrintWriter(file_path, encoding);
 			writer.println("nb_semaine:" + nombreSemaine);
-			writer.println("h_max:" + nombreSemaine);
-			writer.println("hg_max:" + hg_max2);
-			writer.println("offD:" + offD2);
-			writer.println("reph:" + reph2);
-			writer.println("contrainte1:" + c1);
-			writer.println("contrainte2:" + c2);
+			writer.println("contrainte11:" + c11);
+			writer.println("contrainte12" + c12);
+			writer.println("contrainte13" + c13);
+			writer.println("contrainte14:" + c14);
+			writer.println("contrainte15:" + c15);
 			writer.println("input_file:" + input_filename);
 			writer.close();
 		}catch(IOException e) {
@@ -112,53 +112,6 @@ public class SolveurParam {
 		this.input_file = input_file;
 	}
 
-	public double getHmax() {
-		return hmax;
-	}
-
-	public void setHmax(double hmax) {
-		this.hmax = hmax;
-	}
-
-	public double getHg_max() {
-		return hg_max;
-	}
-
-	public void setHg_max(double hg_max) {
-		this.hg_max = hg_max;
-	}
-
-	public double getOffd() {
-		return offd;
-	}
-
-	public void setOffd(double offd) {
-		this.offd = offd;
-	}
-
-	public double getReph() {
-		return reph;
-	}
-
-	public void setReph(double reph) {
-		this.reph = reph;
-	}
-
-	public boolean isContrainte1() {
-		return contrainte1;
-	}
-
-	public void setContrainte1(boolean contrainte1) {
-		this.contrainte1 = contrainte1;
-	}
-
-	public boolean isContrainte2() {
-		return contrainte2;
-	}
-
-	public void setContrainte2(boolean contrainte2) {
-		this.contrainte2 = contrainte2;
-	}
 
 	public String getInput_data() {
 		return input_data;
@@ -166,5 +119,45 @@ public class SolveurParam {
 
 	public void setInput_data(String input_data) {
 		this.input_data = input_data;
+	}
+
+	public boolean isContrainte11() {
+		return contrainte11;
+	}
+
+	public void setContrainte11(boolean contrainte11) {
+		this.contrainte11 = contrainte11;
+	}
+
+	public boolean isContrainte12() {
+		return contrainte12;
+	}
+
+	public void setContrainte12(boolean contrainte12) {
+		this.contrainte12 = contrainte12;
+	}
+
+	public boolean isContrainte13() {
+		return contrainte13;
+	}
+
+	public void setContrainte13(boolean contrainte13) {
+		this.contrainte13 = contrainte13;
+	}
+
+	public boolean isContrainte14() {
+		return contrainte14;
+	}
+
+	public void setContrainte14(boolean contrainte14) {
+		this.contrainte14 = contrainte14;
+	}
+
+	public boolean isContrainte15() {
+		return contrainte15;
+	}
+
+	public void setContrainte15(boolean contrainte15) {
+		this.contrainte15 = contrainte15;
 	}
 }

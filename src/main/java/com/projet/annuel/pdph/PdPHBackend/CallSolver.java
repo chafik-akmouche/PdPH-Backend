@@ -5,18 +5,18 @@ import com.projet.annuel.pdph.solveur.Solver;
 public class CallSolver {
 	
 	//Input data
-	double h_max=45;//Nombre max d'heures par semaine (**)
-	double hg_max=48;//Nombre max d'heures par 7 jours glissants (**)
-	double OffD=12;//Nombre min d'heures de repos (**)
-	double RepH=36;//Nombre min d'heures de repos hebdomadaire (**)
-	double Ratio_base[] = {1,0.9,0.8,0.75,0.7,0.6,0.5};//Pourcentages des contrats (**)
-	double Ratio_dim_base[] = {1,1,1,0.75,0.75,0.6,0.6};//Pourcentages des dimanches par contrat  (**)
+	double h_max=45;//Nombre max d'heures par semaine
+	double hg_max=48;//Nombre max d'heures par 7 jours glissants
+	double OffD=12;//Nombre min d'heures de repos
+	double RepH=36;//Nombre min d'heures de repos hebdomadaire
+	double Ratio_base[] = {1,0.9,0.8,0.75,0.7,0.6,0.5};//Pourcentages des contrats
+	double Ratio_dim_base[] = {1,1,1,0.75,0.75,0.6,0.6};//Pourcentages des dimanches par contrat
 	int CDmax=5;//Maximum jours de travail consecutifs
 	
 	//Liste de contraintes à prendre en compte
 			//Règlementaires
-	//boolean Constrainte1=true; 	//1 Respect Besoins (**) (**)
-	//boolean Constrainte2=true; 	//2 Un poste par jour (**)
+	boolean Constrainte1=true; 	//1 Respect Besoins
+	boolean Constrainte2=true; 	//2 Un poste par jour
 	boolean Constrainte3=true;	//3 Temps travail par sem
 	boolean Constrainte4=true;	//4 Temps travail gliss
 	boolean Constrainte5=true; 	//5 Max heures trav
@@ -52,15 +52,14 @@ public class CallSolver {
 		super();
 	}
 	
-	public void run(int nombre_semaine, double hmax,double hgmax, double offd,double reph,boolean c1, boolean c2,String input_file,String output_directory) {
+	public void run(int nombre_semaine, boolean c11, boolean c12, boolean c13,boolean c14,boolean c15,String input_file,String output_directory) {
 		//modification des contraintes réglementaire
 		// instanciation du solver et son déclenchement sur l'ensemble des contrainte et information d'entrée
 		
 		
-		this.solver = new Solver(nombre_semaine,hmax,hgmax,offd,reph,Ratio_base, Ratio_dim_base, CDmax,
-		c1, c2, Constrainte3, Constrainte4, Constrainte5, Constrainte6,
-		Constrainte7, Constrainte8, Constrainte9, Constrainte10, Constrainte11, Constrainte12,
-		Constrainte13, Constrainte14, Constrainte15, Constrainte16, obj1, obj2, obj3,time_limit,input_file,output_directory);
+		this.solver = new Solver(nombre_semaine,h_max,hg_max,OffD,RepH,Ratio_base, Ratio_dim_base, CDmax,
+		Constrainte1, Constrainte2, Constrainte3, Constrainte4, Constrainte5, Constrainte6,
+		Constrainte7, Constrainte8, Constrainte9, Constrainte10, c11, c12, c13, c14, c15, Constrainte16, obj1, obj2, obj3,time_limit,input_file,output_directory);
 		this.solver.pack();
 		this.solver.setVisible(true);
 	}
