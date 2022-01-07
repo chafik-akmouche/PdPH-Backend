@@ -41,53 +41,58 @@ public class Response {
 	 * @throws IOException 
 	 */
 	public static ArrayList<Creneau> getContentSolution (String fileName) throws IOException {
+		
 		//tableau de creneau a retourner 
 		ArrayList<Creneau> tab_creneaux = new ArrayList<>();
 		
-		//obtention des octets d'entrée d'un fichier  
-		FileInputStream fis = new FileInputStream(new File(fileName)); 
+		File file = new File(fileName);
 		
-		//création d'une instance de classeur faisant référence au fichier .xlsx
-		XSSFWorkbook wb =  new  XSSFWorkbook(fis);  
-		XSSFSheet sheet = wb.getSheetAt(0); //création d'un objet Sheet pour récupérer l'objet
-		Iterator<Row> itr = sheet.iterator(); // itération sur un fichier excel 
-		
-		itr.next(); //ignoration de la première ligne
-		
-		while (itr.hasNext()) {
-			Row row = itr.next(); 
+		if(file.isFile()) {
+			//obtention des octets d'entrée d'un fichier  
+			FileInputStream fis = new FileInputStream(file); 
 			
-			Iterator<Cell> cellIterator = row.cellIterator(); //itération dans les colonnes
+			//création d'une instance de classeur faisant référence au fichier .xlsx
+			XSSFWorkbook wb =  new  XSSFWorkbook(fis);  
+			XSSFSheet sheet = wb.getSheetAt(0); //création d'un objet Sheet pour récupérer l'objet
+			Iterator<Row> itr = sheet.iterator(); // itération sur un fichier excel 
 			
-			//creation d'une nouvelle instance de creneau 
-			Creneau creneau = new Creneau();
+			itr.next(); //ignoration de la première ligne
 			
-			while (cellIterator.hasNext())   
-			{  
-				Cell cell = cellIterator.next();  
-				int indice = cell.getColumnIndex();
-				switch (indice)               
+			while (itr.hasNext()) {
+				Row row = itr.next(); 
+				
+				Iterator<Cell> cellIterator = row.cellIterator(); //itération dans les colonnes
+				
+				//creation d'une nouvelle instance de creneau 
+				Creneau creneau = new Creneau();
+				
+				while (cellIterator.hasNext())   
 				{  
-					case 0:    //field that represents string cell type  
-						creneau.setContrat(row.getCell(indice).toString());
-					break;  
-					case 1: 
-						creneau.setAgent(row.getCell(indice).toString());
-					break;
-				default:
-						creneau.getPostes().add(row.getCell(indice).toString());
-					break;
-					
-				}
-			 }
+					Cell cell = cellIterator.next();  
+					int indice = cell.getColumnIndex();
+					switch (indice)               
+					{  
+						case 0:    //field that represents string cell type  
+							creneau.setContrat(row.getCell(indice).toString());
+						break;  
+						case 1: 
+							creneau.setAgent(row.getCell(indice).toString());
+						break;
+					default:
+							creneau.getPostes().add(row.getCell(indice).toString());
+						break;
+						
+					}
+				 }
+				
+				tab_creneaux.add(creneau);
+				
+			}
 			
-			tab_creneaux.add(creneau);
+			tab_creneaux.remove(tab_creneaux.size()-1);
 			
 		}
 		
-		
-		
-		tab_creneaux.remove(tab_creneaux.size()-1);
 		return tab_creneaux;
 	}
 	
@@ -97,7 +102,6 @@ public class Response {
 		try {
 			FileReader fr = new FileReader(filename);
 			try (BufferedReader br = new BufferedReader(fr)) {
-				String sb = new String();
 				String line;
 				while((line = br.readLine()) != null) {
 					String tab[] = line.split(":");

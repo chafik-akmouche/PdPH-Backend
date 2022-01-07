@@ -42,7 +42,7 @@ public class SolveurParam {
 	    String encoding = "UTF-8";
 	    try {
 		    PrintWriter writer = new PrintWriter(file_path, encoding);
-		    System.out.print("fichier " + file_path + " crée\n");
+		    //System.out.print("fichier " + file_path + " crée\n");
 		    writer.println(inputData);		    
 		    writer.close();	
 		    Files.copy(source, dest);
@@ -62,8 +62,8 @@ public class SolveurParam {
 			PrintWriter writer = new PrintWriter(file_path, encoding);
 			writer.println("nb_semaine:" + nombreSemaine);
 			writer.println("contrainte11:" + c11);
-			writer.println("contrainte12" + c12);
-			writer.println("contrainte13" + c13);
+			writer.println("contrainte12:" + c12);
+			writer.println("contrainte13:" + c13);
 			writer.println("contrainte14:" + c14);
 			writer.println("contrainte15:" + c15);
 			writer.println("input_file:" + input_filename);
@@ -160,4 +160,13 @@ public class SolveurParam {
 	public void setContrainte15(boolean contrainte15) {
 		this.contrainte15 = contrainte15;
 	}
+
+	@Override
+	public String toString() {
+		return "SolveurParam [nb_semaine=" + nb_semaine + ", input_file=" + input_file + ", input_data=" + input_data
+				+ ", contrainte11=" + contrainte11 + ", contrainte12=" + contrainte12 + ", contrainte13=" + contrainte13
+				+ ", contrainte14=" + contrainte14 + ", contrainte15=" + contrainte15 + "]";
+	}
+	
+	
 }

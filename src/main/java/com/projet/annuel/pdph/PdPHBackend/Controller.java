@@ -5,9 +5,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardWatchEventKinds;
+import java.nio.file.WatchKey;
+import java.nio.file.WatchService;
 import java.util.ArrayList;
 import java.util.List;
 import java.nio.file.Path;
@@ -19,6 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.projet.annuel.pdph.solveur.Solver;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -38,7 +44,8 @@ public class Controller {
 			nb_semaine = Response.getParamsNombreSemaine(path);
 		}
 		
-		ArrayList<String> solutions = Response.getSolutionNames("data//out_tmp");
+		String out_tmp_path = "data\\out_tmp";
+		ArrayList<String> solutions = Response.getSolutionNames(out_tmp_path);
 		FilterParams filterParams = new FilterParams(nb_semaine,solutions);
 		
 		return filterParams;
@@ -86,9 +93,10 @@ public class Controller {
 	}
 	
 	@PostMapping(path="/callsolveur")
-	public ArrayList<String> getParameters(@RequestBody SolveurParam params) throws IOException {
+	public boolean getParameters(@RequestBody SolveurParam params) throws IOException, InterruptedException {
 		int nb_semaine = params.getNb_semaine();
 		String input_filename = params.getInput_file();
+		
 		//récuperation des données d'entrée 
 		String input_data = params.getInput_data();
 		boolean contrainte11 = params.isContrainte11();
@@ -97,10 +105,9 @@ public class Controller {
 		boolean contrainte14 = params.isContrainte14();
 		boolean contrainte15 = params.isContrainte15();
 		
+			
 		//sauvegarde des paramètres dans un fichier
 		params.saveParametersOnFile(nb_semaine,contrainte11,contrainte12,contrainte13,contrainte14,contrainte15,input_filename);
-		
-		
 		
 		//creation du fichier d'entrée
 		String input_file = params.createInputFile(input_data);
@@ -109,7 +116,7 @@ public class Controller {
 		String output_directory = params.createOutputDirectory(input_file);
 		
 		callSolver.run(nb_semaine, contrainte11,contrainte12,contrainte13,contrainte14,contrainte15, input_file, output_directory);
-		
+
 		//creation d'un nouveau répertoire de sortie absolu
 		String out = "data/out/out" + params.generateFileCoding() + "/";
 		
@@ -123,14 +130,8 @@ public class Controller {
 		    }
 		}
 		
-		
-		/*
-		 * Cet appel doit être fait à la fin de l'exécution du solveur
-		 * L'objet Json contenant la liste des solutions doit être envoyé au front
-		 */
-		ArrayList<String> solutions = Response.getSolutionNames(output_directory);
-	
-		return solutions;
+		System.out.println(Solver.isFoundSolution());
+		return Solver.isFoundSolution();
 	}
 	
 	@GetMapping("/solution")

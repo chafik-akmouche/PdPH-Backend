@@ -56,10 +56,12 @@ public class CallSolver {
 		//modification des contraintes réglementaire
 		// instanciation du solver et son déclenchement sur l'ensemble des contrainte et information d'entrée
 		
+		boolean res = false;
 		
 		this.solver = new Solver(nombre_semaine,h_max,hg_max,OffD,RepH,Ratio_base, Ratio_dim_base, CDmax,
 		Constrainte1, Constrainte2, Constrainte3, Constrainte4, Constrainte5, Constrainte6,
 		Constrainte7, Constrainte8, Constrainte9, Constrainte10, c11, c12, c13, c14, c15, Constrainte16, obj1, obj2, obj3,time_limit,input_file,output_directory);
+		
 		this.solver.pack();
 		this.solver.setVisible(true);
 	}
